@@ -1,0 +1,16 @@
+{
+  "name": "ioquake3_remote",
+  "version": "0.0.1",
+  "description": "Acts as middleware for remote console-only connections to the ioquake3 engine",
+  "homepage": "https://github.com/AlienHoboken/node_ioquake3_remote",
+  "license": "MIT",
+  "author": "Jeremiah Johnson (http://jwjdev.com)",
+  "repository":
+    { "type": "git",
+      "url" : "https://github.com/AlienHoboken/node_ioquake3_remote"
+    },
+  "dependencies": {
+    "express": "~4.1.1",
+    "redis": "~0.10.1"
+  }
+}
