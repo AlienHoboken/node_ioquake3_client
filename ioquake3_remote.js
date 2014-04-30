@@ -1,25 +1,23 @@
-binary = require('binary');
-express = require('express');
-var app = express();
-var db = redis.createClient();
+var dgram = require('dgram');
 
-app.use(function(req, res, next){
-  var ua = req.headers['user-agent'];
-  db.zadd('online', Date.now(), ua, next);
-});
+/* 
+   This method establishes the UDP connection to
+   the ioquake3 server that will be communicated with
+*/
+exports.connect = function(host, port) {
+  var sock = dgram.createSocket('udp4');
 
-app.use(function(req, res, next){
-  var min = 60 * 1000;
-  var ago = Date.now() - min;
-  db.zrevrangebyscore('online', '+inf', ago, function(err, users){
-    if (err) return next(err);
-    req.online = users;
-    next();
+  sock.bind(port, function() {
+    sock.addMembership(host);
   });
-});
 
-app.get('/', function(req, res){
-  res.send(req.online.length + ' users online');
-});
+  sock.on('close', function() {
+    // TODO emit a server close 
+  });
 
-app.listen(1337);
+  sock.on('message', function() {
+    // TODO emit a server message event
+  });
+}
+
+
