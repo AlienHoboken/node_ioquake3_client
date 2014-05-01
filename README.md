@@ -1,4 +1,4 @@
-node_ioquake3_remote
+Node.js ioquake3 Client
 ====================
+This package serves a node.js headless client for the ioquake3 engine.
 
-A node.js application which allows you to establish remote, console-only, connections to an ioquake3 server for multiple clients
