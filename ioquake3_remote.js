@@ -15,13 +15,22 @@ exports.connect = function(host, port) {
     // TODO emit a server close 
   });
 
-  sock.on('message', function(message, rinfo) {
+  sock.on('message', function(message_bytes, rinfo) {
     //chop off header
-    message = message.slice(4).toString();
+    var message = message_bytes.slice(4).toString();
     console.log("Received message: " + message);
+
     //check what type it is
-    if(message.indexOf("challengeResponse" === 0)) {
-      //TODO Send clientinfo
+
+    //if it's a challenge response, send clientinfo
+    if(message.indexOf("challengeResponse") === 0) {
+      var challenge = message_bytes.slice(22).toString();
+      var infoString = "\"\\challenge\\" + challenge + "\\qport\\0\\protocol\\69\\cl_voip\\0\\name\\TestName\\rate\\3000\\snaps\\20\\color1\\4\\color2\\5\\handicap\\100\\sex\\male\\cl_guid\\XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\"";
+      var msg = format("connect " + infoString);
+      console.log("Sending... " + msg);
+      sock.send(msg, 0, msg.length, port, host, function(err, bytes) {
+        console.log("Sent " + bytes + " bytes. Err: " + err);
+      });
     }
   });
 
