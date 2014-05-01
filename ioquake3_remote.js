@@ -1,4 +1,5 @@
 var dgram = require('dgram');
+var compressjs = require('compressjs');
 
 /* 
    This method establishes the UDP connection to
